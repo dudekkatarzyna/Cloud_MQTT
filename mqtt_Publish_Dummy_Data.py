@@ -14,7 +14,7 @@ from near_location import near_location
 
 # ====================================================
 # MQTT Settings 
-MQTT_Broker = "localhost"
+MQTT_Broker = "test.mosquitto.org"
 MQTT_Port = 1883
 Keep_Alive_Interval = 45
 MQTT_Topic_Humidity = "cloud2020/kdudek/sensor_data/humidity"
