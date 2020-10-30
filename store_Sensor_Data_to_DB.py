@@ -47,8 +47,8 @@ def DHT22_Temp_Data_Handler(jsonData):
 	dbObj = DatabaseManager()
 	dbObj.add_del_update_db_record("insert into DHT22_Temperature_Data (SensorID, Date_n_Time, Temperature) values (?,?,?)",[SensorID, Data_and_Time, Temperature])
 	del dbObj
-	print "Inserted Temperature Data into Database."
-	print ""
+	print ("Inserted Temperature Data into Database.")
+	print ("")
 
 # Function to save Humidity to DB Table
 def DHT22_Humidity_Data_Handler(jsonData):
@@ -62,8 +62,8 @@ def DHT22_Humidity_Data_Handler(jsonData):
 	dbObj = DatabaseManager()
 	dbObj.add_del_update_db_record("insert into DHT22_Humidity_Data (SensorID, Date_n_Time, Humidity) values (?,?,?)",[SensorID, Data_and_Time, Humidity])
 	del dbObj
-	print "Inserted Humidity Data into Database."
-	print ""
+	print ("Inserted Humidity Data into Database.")
+	print ("")
 
 
 #===============================================================
