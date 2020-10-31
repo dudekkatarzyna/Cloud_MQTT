@@ -62,7 +62,7 @@ def publish_To_Topic(topic, message):
 # to MQTT Broker
 
 
-toggle = sys.argv[1]
+toggle = int(sys.argv[1])
 
 
 def publish_Fake_Sensor_Values_to_MQTT():
@@ -79,7 +79,6 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         print("Publishing fake Humidity Value: " + str(Humidity_Fake_Value) + "...")
         publish_To_Topic(MQTT_Topic_Humidity, humidity_json_data)
-        toggle = 1
 
     elif toggle == 1:
         Temperature_Fake_Value = float("{0:.2f}".format(random.uniform(-20, 60)))
@@ -92,7 +91,6 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         print("Publishing fake Temperature Value: " + str(Temperature_Fake_Value) + "...")
         publish_To_Topic(MQTT_Topic_Temperature, temperature_json_data)
-        toggle += 1
 
     elif toggle == 2:
         Pollution_Fake_Value = float("{0:.2f}".format(random.uniform(0, 65)))
@@ -105,7 +103,6 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         print("Publishing fake Pollution Value: " + str(Pollution_Fake_Value) + "...")
         publish_To_Topic(MQTT_Topic_Pollution, pollution_json_data)
-        toggle += 1
 
     elif toggle == 3:
         Location_Fake_Value = near_location(float("{0:.2f}".format(random.uniform(-180, 180))),
@@ -119,7 +116,6 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         print("Publishing fake Location Value: " + str(Location_Fake_Value) + "...")
         publish_To_Topic(MQTT_Topic_Location, location_json_data)
-        toggle = 0
 
 
 publish_Fake_Sensor_Values_to_MQTT()

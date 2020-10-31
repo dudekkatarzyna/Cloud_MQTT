@@ -29,7 +29,7 @@ def on_message(mosq, obj, msg):
     print("MQTT Data Received...")
     print("MQTT Topic: " + str(msg.topic))
     print("Data: " + str(msg.payload))
-   # sensor_Data_Handler(msg.topic, msg.payload)
+    sensor_Data_Handler(str(msg.topic), msg.payload)
 
 
 def on_subscribe(mosq, obj, mid, granted_qos):
