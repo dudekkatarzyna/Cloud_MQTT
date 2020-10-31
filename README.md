@@ -1,6 +1,3 @@
-# Store_MQTT_Data_in_Database
+## CloudComputing Lab03
 
-For detailed instruction please refer to the following link  - 
-
-https://iotbytes.wordpress.com/store-mqtt-data-from-sensors-into-sql-database/
-
+Rename ``rename_to_config.py`` to `config.py` and add correct data.
