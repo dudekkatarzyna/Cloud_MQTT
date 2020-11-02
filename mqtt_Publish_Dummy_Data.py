@@ -73,7 +73,7 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         Humidity_Data = {}
         Humidity_Data['Sensor_ID'] = "s1"
-        Humidity_Data['Date'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+        Humidity_Data['Date'] = (datetime.today()).strftime("%Y-%m-%d %H:%M:%S")
         Humidity_Data['Humidity'] = Humidity_Fake_Value
         humidity_json_data = json.dumps(Humidity_Data)
 
@@ -85,7 +85,7 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         Temperature_Data = {}
         Temperature_Data['Sensor_ID'] = "s2"
-        Temperature_Data['Date'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+        Temperature_Data['Date'] = (datetime.today()).strftime("%Y-%m-%d %H:%M:%S")
         Temperature_Data['Temperature'] = Temperature_Fake_Value
         temperature_json_data = json.dumps(Temperature_Data)
 
@@ -97,7 +97,7 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         Pollution_Data = {}
         Pollution_Data['Sensor_ID'] = "s3"
-        Pollution_Data['Date'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+        Pollution_Data['Date'] = (datetime.today()).strftime("%Y-%m-%d %H:%M:%S")
         Pollution_Data['Pollution'] = Pollution_Fake_Value
         pollution_json_data = json.dumps(Pollution_Data)
 
@@ -110,7 +110,7 @@ def publish_Fake_Sensor_Values_to_MQTT():
 
         Location_Data = {}
         Location_Data['Sensor_ID'] = "s4"
-        Location_Data['Date'] = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
+        Location_Data['Date'] = (datetime.today()).strftime("%Y-%m-%d %H:%M:%S")
         Location_Data['Location'] = Location_Fake_Value
         location_json_data = json.dumps(Location_Data)
 

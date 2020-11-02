@@ -122,6 +122,8 @@ def DHT22_Location_Data_Handler(jsonData):
 # Master Function to Select DB Funtion based on MQTT Topic
 
 def sensor_Data_Handler(Topic, jsonData):
+
+    
     if Topic == "cloud2020/kdudek/sensor_data/temperature":
         DHT22_Temp_Data_Handler(jsonData)
     elif Topic == "cloud2020/kdudek/sensor_data/humidity":

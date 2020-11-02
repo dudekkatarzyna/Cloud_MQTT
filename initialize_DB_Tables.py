@@ -16,17 +16,17 @@ database = config.database
 
 TemperatureTableSchema = """
 CREATE TABLE TemperatureData (
-    DataID int,
-    SensorID varchar(255),
-     Date_n_Time date,
-    Temperature varchar(255)
+    DataID INT,
+    SensorID VARCHAR (255),
+    Date_n_Time DATETIME,  
+    Temperature VARCHAR (255)
 );
 """
 HumidityTableSchema = """
 CREATE TABLE HumidityData (
     DataID int,
     SensorID varchar(255),
-    Date_n_Time date,
+    Date_n_Time datetime2,
     Humidity varchar(255)
 );
 """
@@ -34,7 +34,7 @@ PollutionTableSchema = """
 CREATE TABLE PollutionData (
     DataID int,
     SensorID varchar(255),
-     Date_n_Time date,
+     Date_n_Time datetime2,
     Pollution varchar(255)
 );
 """
@@ -43,7 +43,7 @@ LocationTableSchema = """
 CREATE TABLE LocationData (
     DataID int,
     SensorID varchar(255),
-    Date_n_Time date,
+    Date_n_Time datetime2,
     Location varchar(255)
 );
 
