@@ -46,9 +46,8 @@ class DatabaseManager():
         return
 
     def __del__(self):
-        pass
-    # self.cur.close()
-    # self.conn.close()
+        self.cur.close()
+        self.conn.close()
 
 
 # ===============================================================
@@ -88,6 +87,7 @@ def DHT22_Humidity_Data_Handler(jsonData):
     print("Inserted Humidity Data into Database.")
     print("")
 
+
 def DHT22_Pollution_Data_Handler(jsonData):
     # Parse Data
     json_Dict = json.loads(jsonData)
@@ -102,6 +102,7 @@ def DHT22_Pollution_Data_Handler(jsonData):
     del dbObj
     print("Inserted Pollution Data into Database.")
     print("")
+
 
 def DHT22_Location_Data_Handler(jsonData):
     # Parse Data
@@ -118,12 +119,11 @@ def DHT22_Location_Data_Handler(jsonData):
     print("Inserted Location Data into Database.")
     print("")
 
+
 # ===============================================================
 # Master Function to Select DB Funtion based on MQTT Topic
 
 def sensor_Data_Handler(Topic, jsonData):
-
-    
     if Topic == "cloud2020/kdudek/sensor_data/temperature":
         DHT22_Temp_Data_Handler(jsonData)
     elif Topic == "cloud2020/kdudek/sensor_data/humidity":
