@@ -13,7 +13,7 @@ from store_Sensor_Data_to_DB import sensor_Data_Handler
 MQTT_Broker = "test.mosquitto.org"
 MQTT_Port = 1883
 Keep_Alive_Interval = 45
-MQTT_Topic = "cloud2020/kdudek/sensor_data/#"
+MQTT_Topic = "cloud2020/kdudek/sensor_data"
 
 
 # Subscribe to all Sensors at Base Topic
@@ -29,6 +29,7 @@ def on_message(mosq, obj, msg):
     print("MQTT Data Received...")
     print("MQTT Topic: " + str(msg.topic))
     print("Data: " + str(msg.payload))
+
     sensor_Data_Handler(str(msg.topic), msg.payload)
 
 

@@ -14,40 +14,21 @@ user = config.user
 password = config.password
 database = config.database
 
-TemperatureTableSchema = """
-CREATE TABLE TemperatureData (
-    id INT NOT NULL AUTO_INCREMENT KEY,
-    SensorID VARCHAR (255),
-    Date_n_Time DATETIME,  
-    Temperature VARCHAR (255)
-);
-"""
-HumidityTableSchema = """
-CREATE TABLE HumidityData (
-    id INT NOT NULL AUTO_INCREMENT KEY,
-    SensorID varchar(255),
-    Date_n_Time datetime,
-    Humidity varchar(255)
-);
-"""
-PollutionTableSchema = """
-CREATE TABLE PollutionData (
+TableSchema = """
+CREATE TABLE SensorData (
     id INT NOT NULL AUTO_INCREMENT KEY,
     SensorID varchar(255),
      Date_n_Time datetime,
-    Pollution varchar(255)
-);
-"""
-LocationTableSchema = """
-
-CREATE TABLE LocationData (
-    id INT NOT NULL AUTO_INCREMENT KEY,
-    SensorID varchar(255),
-    Date_n_Time datetime,
+    Temperature VARCHAR (255),
+       Humidity varchar(255),
+        Pollution varchar(255),
     Location varchar(255)
-);
+ 
+   
 
+);
 """
+
 # Connect or Create DB File
 conn = pymysql.connect(host, user, password, database, port)
 cur = conn.cursor()
@@ -57,10 +38,8 @@ print("Database version: {} ".format(version[0]))
 curs = conn.cursor()
 
 # Create Tables
-curs.execute(TemperatureTableSchema)
-curs.execute(HumidityTableSchema)
-curs.execute(PollutionTableSchema)
-curs.execute(LocationTableSchema)
+curs.execute(TableSchema)
+
 
 # Close DB
 curs.close()
