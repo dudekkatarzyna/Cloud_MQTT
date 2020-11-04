@@ -8,9 +8,6 @@
 
 
 import json
-import sqlite3
-
-# SQLite DB Name
 import pymysql as pymysql
 import config
 
@@ -30,11 +27,6 @@ class DatabaseManager():
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT VERSION()")
         version = self.cur.fetchone()
-        print("Database version: {} ".format(version[0]))
-
-    # self.conn.execute('pragma foreign_keys = on')
-    # self.conn.commit()
-    # self.cur = self.conn.cursor()
 
     def add_del_update_db_record(self, sql_query, args=()):
         self.cur.execute("SELECT VERSION()")
@@ -56,6 +48,7 @@ temperature_Values = []
 humidity_Values = []
 pollution_Values = []
 location_Values = []
+
 
 def reset_counter():
     global temperature_Values, humidity_Values, pollution_Values, location_Values, buffer_index
@@ -85,8 +78,8 @@ def check_storage():
             dbObj.add_del_update_db_record("INSERT INTO PollutionData VALUES  {}".format(values))
 
         if location_Values:
-           values = ', '.join(map(str, location_Values))
-           dbObj.add_del_update_db_record("INSERT INTO LocationData VALUES  {}".format(values))
+            values = ', '.join(map(str, location_Values))
+            dbObj.add_del_update_db_record("INSERT INTO LocationData VALUES  {}".format(values))
         del dbObj
 
         reset_counter()
