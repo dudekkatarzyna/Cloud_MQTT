@@ -37,11 +37,9 @@ class DatabaseManager():
     # self.cur = self.conn.cursor()
 
     def add_del_update_db_record(self, sql_query, args=()):
-        print(args)
         self.cur.execute("SELECT VERSION()")
         version = self.cur.fetchone()
-        print("Database version: {} ".format(version[0]))
-        self.cur.execute(sql_query, args)
+        self.cur.execute(sql_query)
         self.conn.commit()
         return
 
@@ -53,6 +51,48 @@ class DatabaseManager():
 # ===============================================================
 # Functions to push Sensor Data into Database
 
+buffer_index = 0
+temperature_Values = []
+humidity_Values = []
+pollution_Values = []
+location_Values = []
+
+def reset_counter():
+    global temperature_Values, humidity_Values, pollution_Values, location_Values, buffer_index
+
+    temperature_Values = []
+    humidity_Values = []
+    pollution_Values = []
+    location_Values = []
+    buffer_index = 0
+
+
+def check_storage():
+    global temperature_Values, humidity_Values, pollution_Values, location_Values, buffer_index
+    if buffer_index == 10:
+        dbObj = DatabaseManager()
+
+        if temperature_Values:
+            values = ', '.join(map(str, temperature_Values))
+            dbObj.add_del_update_db_record("INSERT INTO TemperatureData VALUES  {}".format(values))
+
+        if humidity_Values:
+            values = ', '.join(map(str, humidity_Values))
+            dbObj.add_del_update_db_record("INSERT INTO HumidityData VALUES  {}".format(values))
+
+        if pollution_Values:
+            values = ', '.join(map(str, pollution_Values))
+            dbObj.add_del_update_db_record("INSERT INTO PollutionData VALUES  {}".format(values))
+
+        if location_Values:
+           values = ', '.join(map(str, location_Values))
+           dbObj.add_del_update_db_record("INSERT INTO LocationData VALUES  {}".format(values))
+        del dbObj
+
+        reset_counter()
+        print("Inserted Data into Database.")
+
+
 # Function to save Temperature to DB Table
 def DHT22_Temp_Data_Handler(jsonData):
     # Parse Data
@@ -61,14 +101,11 @@ def DHT22_Temp_Data_Handler(jsonData):
     Data_and_Time = json_Dict['Date']
     Temperature = json_Dict['Temperature']
 
-    # Push into DB Table
-    dbObj = DatabaseManager()
-    dbObj.add_del_update_db_record(
-        "insert into TemperatureData (SensorID, Date_n_Time, Temperature) values (%s,%s,%s)",
-        [SensorID, Data_and_Time, str(Temperature)])
-    del dbObj
-    print("Inserted Temperature Data into Database.")
-    print("")
+    global temperature_Values, buffer_index
+    temperature_Values.append((("NULL", SensorID, Data_and_Time, str(Temperature))))
+    buffer_index += 1
+
+    check_storage()
 
 
 # Function to save Humidity to DB Table
@@ -79,13 +116,11 @@ def DHT22_Humidity_Data_Handler(jsonData):
     Data_and_Time = json_Dict['Date']
     Humidity = json_Dict['Humidity']
 
-    # Push into DB Table
-    dbObj = DatabaseManager()
-    dbObj.add_del_update_db_record("insert into HumidityData (SensorID, Date_n_Time, Humidity) values (%s,%s,%s)",
-                                   [SensorID, Data_and_Time, str(Humidity)])
-    del dbObj
-    print("Inserted Humidity Data into Database.")
-    print("")
+    global humidity_Values, buffer_index
+    humidity_Values.append((("NULL", SensorID, Data_and_Time, str(Humidity))))
+    buffer_index += 1
+
+    check_storage()
 
 
 def DHT22_Pollution_Data_Handler(jsonData):
@@ -95,13 +130,11 @@ def DHT22_Pollution_Data_Handler(jsonData):
     Data_and_Time = json_Dict['Date']
     Pollution = json_Dict['Pollution']
 
-    # Push into DB Table
-    dbObj = DatabaseManager()
-    dbObj.add_del_update_db_record("insert into PollutionData (SensorID, Date_n_Time, Pollution) values (%s,%s,%s)",
-                                   [SensorID, Data_and_Time, str(Pollution)])
-    del dbObj
-    print("Inserted Pollution Data into Database.")
-    print("")
+    global pollution_Values, buffer_index
+    pollution_Values.append((("NULL", SensorID, Data_and_Time, str(Pollution))))
+    buffer_index += 1
+
+    check_storage()
 
 
 def DHT22_Location_Data_Handler(jsonData):
@@ -111,13 +144,11 @@ def DHT22_Location_Data_Handler(jsonData):
     Data_and_Time = json_Dict['Date']
     Location = json_Dict['Location']
 
-    # Push into DB Table
-    dbObj = DatabaseManager()
-    dbObj.add_del_update_db_record("insert into LocationData (SensorID, Date_n_Time, Location) values (%s,%s,%s)",
-                                   [SensorID, Data_and_Time, str(Location)])
-    del dbObj
-    print("Inserted Location Data into Database.")
-    print("")
+    global location_Values, buffer_index
+    location_Values.append((("NULL", SensorID, Data_and_Time, str(Location))))
+    buffer_index += 1
+
+    check_storage()
 
 
 # ===============================================================
