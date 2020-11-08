@@ -9,16 +9,18 @@
 
 import paho.mqtt.client as mqtt
 import random, threading, json
-from datetime import datetime
-from near_location import near_location
 import sys
 
 # ====================================================
-# MQTT Settings 
+# MQTT Settings
+
+
+from fake_Publish_Data import fake_Publish_Data
+
 MQTT_Broker = "test.mosquitto.org"
 MQTT_Port = 1883
 Keep_Alive_Interval = 45
-MQTT_Topic = "cloud2020/kdudek/sensor_data"
+MQTT_Topic = "cloud2020/kdudek/shopping_center"
 
 
 # ====================================================
@@ -59,25 +61,10 @@ def publish_To_Topic(topic, message):
 # to MQTT Broker
 
 
-sensor_id = sys.argv[1]
-Location_Fake_Value = near_location(float("{0:.2f}".format(random.uniform(-180, 180))),
-                                    float("{0:.2f}".format(random.uniform(-180, 180))), 50)
 def publish_Fake_Sensor_Values_to_MQTT():
-    global Location_Fake_Value, sensor_id
-    threading.Timer(3.0, publish_Fake_Sensor_Values_to_MQTT).start()
+    threading.Timer(30.0, publish_Fake_Sensor_Values_to_MQTT).start()
 
-    Temperature_Fake_Value = float("{0:.2f}".format(random.uniform(-20, 60)))
-    Humidity_Fake_Value = float("{0:.2f}".format(random.uniform(10, 90)))
-    Pollution_Fake_Value = float("{0:.2f}".format(random.uniform(0, 65)))
-
-    Data = {}
-    Data['Sensor_ID'] = sensor_id
-    Data['Date'] = (datetime.today()).strftime("%Y-%m-%d %H:%M:%S")
-    Data['Temperature'] = Temperature_Fake_Value
-    Data['Humidity'] = Humidity_Fake_Value
-    Data['Pollution'] = Pollution_Fake_Value
-    Data['Location'] = Location_Fake_Value
-
+    Data = fake_Publish_Data()
     json_data = json.dumps(Data)
 
     print("Publishing fake Values: " + str(json_data) + "...")

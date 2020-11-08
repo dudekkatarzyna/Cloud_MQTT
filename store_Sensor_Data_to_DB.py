@@ -43,7 +43,6 @@ class DatabaseManager():
 # ===============================================================
 # Functions to push Sensor Data into Database
 
-buffer_index = 0
 buffer_values = []
 
 
@@ -51,38 +50,32 @@ def reset_counter():
     global buffer_values, buffer_index
 
     buffer_values = []
-    buffer_index = 0
-
-
-def check_storage():
-    global buffer_values, buffer_index
-    if buffer_index == 10:
-        dbObj = DatabaseManager()
-        values = ', '.join(map(str, buffer_values))
-        dbObj.add_del_update_db_record("INSERT INTO SensorData VALUES  {}".format(values))
-        del dbObj
-        reset_counter()
-        print("Inserted Data into Database.")
 
 
 def DHT22_Data_Handler(jsonData):
-    json_Dict = json.loads(jsonData)
-    SensorID = json_Dict['Sensor_ID']
-    Data_and_Time = json_Dict['Date']
-    Temperature = json_Dict['Temperature']
-    Humidity = json_Dict['Humidity']
-    Pollution = json_Dict['Pollution']
-    Location = json_Dict['Location']
-
     global buffer_values, buffer_index
-    buffer_values.append(
-        (("NULL", SensorID, Data_and_Time, str(Temperature), str(Humidity), str(Pollution), str(Location))))
-    buffer_index += 1
 
-    check_storage()
+    print("Received data...")
+    json_Dict = json.loads(jsonData)
+    for data in json_Dict:
+        ShopID = int(data['ShopID'])
+        Data_and_Time = data['Date_n_Time']
+        CurrentCapacity = data['CurrentCapacity']
+
+        buffer_values.append(
+            (("NULL", ShopID, Data_and_Time, CurrentCapacity)))
+
+    dbObj = DatabaseManager()
+    values = ', '.join(map(str, buffer_values))
+    dbObj.add_del_update_db_record("INSERT INTO SensorData VALUES  {}".format(values))
+    print("Data inserted into database.")
+    del dbObj
+
+    reset_counter()
+
 
 def sensor_Data_Handler(Topic, jsonData):
-    if Topic == "cloud2020/kdudek/sensor_data":
+    if Topic == "cloud2020/kdudek/shopping_center":
         DHT22_Data_Handler(jsonData)
 
 # ===============================================================

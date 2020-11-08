@@ -15,17 +15,17 @@ password = config.password
 database = config.database
 
 TableSchema = """
+CREATE TABLE Shop (
+    id INT NOT NULL AUTO_INCREMENT KEY,
+    Name varchar(255),
+    MaxCapacity INT 
+);
 CREATE TABLE SensorData (
     id INT NOT NULL AUTO_INCREMENT KEY,
-    SensorID varchar(255),
-     Date_n_Time datetime,
-    Temperature VARCHAR (255),
-       Humidity varchar(255),
-        Pollution varchar(255),
-    Location varchar(255)
- 
-   
-
+    ShopID INT,
+    Date_n_Time datetime,
+    CurrentCapacity INT,
+    FOREIGN KEY (ShopID) references  Shop(id)
 );
 """
 
